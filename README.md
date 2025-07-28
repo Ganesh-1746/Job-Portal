@@ -13,7 +13,7 @@ This is a full-stack Job Portal project using:
 
 ### 🧩 Frontend
 
-## Commands
+Commands
 
 cd frontend,
 npm install,
@@ -23,7 +23,7 @@ Runs on http://localhost:4200
 
 🔧 Backend
 
-## Commands
+Commands
 
 cd backend,
 ./mvnw spring-boot:run
@@ -58,7 +58,7 @@ JWT-based authentication
 Role-based authorization (User / Admin)
 
 
-About Project
+## About Project
 • Developed a full-stack job portal with role-based authentication.
 • Implemented JWT for secure user/admin login and Bcrypt for password encryption
 • Used MinIO for uploading and serving resume files securely
