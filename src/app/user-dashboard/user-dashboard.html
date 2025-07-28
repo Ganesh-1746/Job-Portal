@@ -1,0 +1,31 @@
+<div class="relative h-screen w-full flex overflow-hidden">
+
+  <button
+    class="md:hidden fixed top-4 left-4 z-50 bg-[#22223bff] text-white p-2 rounded shadow"
+    *ngIf="!isMobileSidebarOpen"
+    (click)="toggleMobileSidebar()"
+  >
+    <span class="material-icons text-2xl">menu</span>
+  </button>
+
+  <app-sidebar
+    *ngIf="!isMobile || isMobileSidebarOpen"
+    class="fixed md:relative z-50 h-full bg-[#22223bff] text-white transition-all duration-300 ease-in-out shrink-0"
+    [ngClass]="[
+      isMobile ? 'w-64' : (isSidebarCollapsed ? 'w-20' : 'w-64'),
+      isMobile && isMobileSidebarOpen ? 'translate-x-0' : (isMobile ? '-translate-x-full' : '')
+    ]"
+    (collapseChange)="onSidebarCollapseChange($event)"
+    (menuClicked)="closeMobileSidebar()"
+  ></app-sidebar>
+
+  <div
+    *ngIf="isMobile && isMobileSidebarOpen"
+    class="fixed inset-0 bg-black opacity-50 z-40"
+    (click)="closeMobileSidebar()"
+  ></div>
+
+  <div class="flex-1 overflow-y-auto bg-cover bg-center pt-10 md:pt-0">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+.custom-curve-left {
+  background-image: linear-gradient(to left bottom, #2a195a41, #2a195a83), url('/assets/images/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  clip-path: ellipse(100% 100% at 60% 30%);
+}

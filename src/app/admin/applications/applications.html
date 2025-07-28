@@ -1,0 +1,86 @@
+<div class="min-h-screen bg-[#f2e9e4ff] flex justify-center py-10 px-4">
+  <div class="bg-white p-6 rounded-2xl shadow-xl w-full max-w-4xl">
+
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
+      <h2 class="text-2xl font-bold">All Applications</h2>
+      <div class="flex gap-2 mt-2 sm:mt-0">
+        <input
+          type="text"
+          [(ngModel)]="searchText"
+          placeholder="Search jobs..."
+          class="border p-2 rounded w-full sm:w-64"
+        />
+        <button class="bg-[#22223bff] text-white px-4 py-2 rounded sm:w-auto">
+          Search
+        </button>
+      </div>
+    </div>
+
+    <div class="grid gap-4">
+      <div
+        *ngFor="let app of filteredApplications"
+        class="p-4 rounded-lg shadow bg-gray-200"
+      >
+
+        <div *ngIf="editingApplicationId === app.applicationId; else viewMode">
+          <h3 class="text-lg font-bold">{{ app.jobTitle }} - {{ app.companyName }}</h3>
+          <p class="text-sm text-gray-700">Applicant: {{ app.applicantName }}</p>
+
+          <label class="block mt-2 font-semibold">Update Status:</label>
+          <select
+            [(ngModel)]="selectedStatus"
+            class="border px-3 py-2 mt-1 rounded w-full sm:w-72"
+          >
+            <option value="PENDING">Pending</option>
+            <option value="ACCEPTED">Accepted</option>
+            <option value="REJECTED">Rejected</option>
+          </select>
+
+          <div class="flex flex-col sm:flex-row gap-2 mt-4">
+            <button
+              (click)="saveStatus(app.applicationId, selectedStatus)"
+              class="bg-green-600 text-white px-4 py-2 rounded w-full sm:w-auto"
+            >
+              Save
+            </button>
+            <button
+              (click)="cancelEditing()"
+              class="bg-gray-600 text-white px-4 py-2 rounded w-full sm:w-auto"
+            >
+              Back
+            </button>
+          </div>
+        </div>
+        
+        <ng-template #viewMode>
+          <h3 class="text-lg font-bold">{{ app.jobTitle }}</h3>
+          <p class="text-sm text-gray-700">Company: {{ app.companyName }}</p>
+          <p class="text-sm text-gray-700">Applicant: {{ app.applicantName }}</p>
+          <p class="text-sm text-gray-700">
+            Status:
+            <span
+              class="font-semibold"
+              [ngClass]="{
+                'text-yellow-600': app.status === 'Pending',
+                'text-green-600': app.status === 'Accepted',
+                'text-red-600': app.status === 'Rejected'
+              }"
+            >
+              {{ app.status }}
+            </span>
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-2 mt-2">
+            <button
+              (click)="startEditing(app.applicationId, app.status)"
+              class="bg-blue-600 text-white px-4 py-1 rounded w-full sm:w-auto"
+            >
+              Update
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+  </div>
+</div>

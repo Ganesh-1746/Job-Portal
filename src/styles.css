@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+:root {
+    --primary-900: #22223bff;
+    --primary-700: #4a4e69ff;
+    --primary-500: #9a8c98ff;
+    --primary-300: #c9ada7ff;
+    --primary-100: #f2e9e4ff;
+}
+
+@keyframes fadeScaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  

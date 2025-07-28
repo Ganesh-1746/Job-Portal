@@ -1,0 +1,26 @@
+<div [class.w-64]="!collapsed" [class.w-20]="collapsed" 
+     class="bg-[#22223bff] bg-opacity-90 text-[#f2e9e4ff] shadow-lg p-5 h-screen sticky top-0 transition-all duration-300">
+
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">
+      {{ collapsed ? 'Job' : 'Job Portal' }}
+    </h2>
+  </div>
+
+  <div class="border-t-2 border-[#f2e9e4ff] my-4"></div>
+
+  <ul class="space-y-2">
+    <li *ngFor="let menu of menuItems">
+      <a [routerLink]="menu.url"
+         routerLinkActive="bg-[#f2e9e4ff] text-[#22223bff]"
+         [routerLinkActiveOptions]="{ exact: true }"
+         class="block w-full p-3 rounded-lg transition-all font-semibold"
+         (click)="onMenuClick()"> 
+        <div class="flex items-center gap-2">
+          <span class="material-icons text-xl">{{ menu.icon }}</span>
+          <span *ngIf="!collapsed">{{ menu.title }}</span>
+        </div>
+      </a>
+    </li>
+  </ul>
+</div>

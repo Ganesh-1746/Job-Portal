@@ -1,0 +1,111 @@
+<div class="px-4 sm:px-6 md:px-8 py-10 bg-[#f2e9e4ff] min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-2xl bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-2xl transition duration-500 hover:scale-[1.02]">
+
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#22223bff]">Profile</h2>
+        <p class="text-gray-500 text-sm sm:text-base">View and update your information</p>
+      </div>
+      <button *ngIf="editMode || showPasswordChange"
+              (click)="onBack()"
+              class="bg-gray-300 hover:bg-gray-400 text-[#22223bff] font-semibold px-4 py-2 rounded">
+        Back
+      </button>
+    </div>
+
+    <form class="space-y-5" (ngSubmit)="updateProfile()">
+
+      <ng-container *ngIf="!showPasswordChange">
+        
+        <div *ngIf="!editMode">
+          <label class="block mb-1 text-gray-700 font-medium">Name</label>
+          <input [(ngModel)]="userSignal().name" name="name" type="text" disabled
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100" />
+        </div>
+
+        <div *ngIf="!editMode">
+          <label class="block mb-1 text-gray-700 font-medium">Email</label>
+          <input [(ngModel)]="userSignal().email" name="email" type="email" disabled
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100" />
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-700 font-medium">Mobile No</label>
+          <input [(ngModel)]="userSignal().mobileNo" name="mobileNo" type="text"
+                 [disabled]="!editMode"
+                 placeholder="Enter your mobile number"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#22223bff] disabled:bg-gray-100" />
+        </div>
+
+        <div>
+          <label class="block mb-1 text-gray-700 font-medium">Location</label>
+          <input [(ngModel)]="userSignal().location" name="location" type="text"
+                 [disabled]="!editMode"
+                 placeholder="Enter your location"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#22223bff] disabled:bg-gray-100" />
+        </div>
+
+        <div *ngIf="editMode">
+          <label class="block mb-1 text-gray-700 font-medium">Upload Resume (PDF)</label>
+          <input type="file" (change)="onFileSelected($event)" accept=".pdf"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-md file:bg-[#22223bff] file:text-white hover:file:bg-[#4a4e69ff]" />
+        </div>
+
+        <div class="flex flex-col sm:flex-row flex-wrap justify-between gap-3 mt-6" *ngIf="!editMode">
+          <button type="button"
+                  (click)="viewResume()"
+                  class="w-full sm:w-auto bg-[#4a4e69ff] text-white px-4 py-2 rounded hover:bg-[#6d597aff]">
+            View Resume
+          </button>
+          <button type="button"
+                  (click)="enableEdit()"
+                  class="w-full sm:w-auto bg-[#22223bff] text-white px-4 py-2 rounded hover:bg-[#4a4e69ff]">
+            Edit
+          </button>
+          <button type="button"
+                  (click)="toggleChangePassword()"
+                  class="w-full sm:w-auto bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">
+            Change Password
+          </button>
+        </div>
+
+        <div *ngIf="editMode" class="text-center mt-6">
+          <button type="submit"
+                  class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 disabled:opacity-50">
+            Save
+          </button>
+        </div>
+      </ng-container>
+
+      <div *ngIf="showPasswordChange" class="mt-6 space-y-4">
+        <div>
+          <label class="block mb-1 text-gray-700 font-medium">Old Password</label>
+          <input type="password" [(ngModel)]="oldPassword" name="oldPassword"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#22223bff]" />
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-700 font-medium">New Password</label>
+          <input type="password" [(ngModel)]="newPassword" name="newPassword"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#22223bff]" />
+        </div>
+        <div>
+          <label class="block mb-1 text-gray-700 font-medium">Confirm New Password</label>
+          <input type="password" [(ngModel)]="newConfirmPassword" name="newConfirmPassword"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#22223bff]" />
+          <p *ngIf="newPassword && newConfirmPassword && newPassword !== newConfirmPassword"
+             class="text-red-600 text-sm mt-1">
+            Passwords do not match
+          </p>
+        </div>
+        <div class="text-center mt-4">
+          <button type="button"
+                  (click)="changePassword()"
+                  class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+            Change
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

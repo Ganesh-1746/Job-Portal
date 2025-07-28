@@ -1,0 +1,50 @@
+<div class="min-h-screen bg-[#f2e9e4ff] flex items-center justify-center py-5 px-4">
+  <div class="bg-white shadow-xl rounded-2xl p-6 sm:p-8 w-full max-w-4xl">
+    <h2 class="text-xl sm:text-2xl font-bold mb-4 text-center">Manage Companies</h2>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+      <button 
+        class="w-full sm:w-auto px-4 py-2 rounded-lg font-semibold"
+        [ngClass]="{
+          'bg-[#22223bff] text-white': selectedTab === 'list',
+          'bg-gray-200 text-black': selectedTab !== 'list'
+        }"
+        (click)="selectedTab = 'list'">
+        View All Companies
+      </button>
+
+      <button 
+        class="w-full sm:w-auto px-4 py-2 rounded-lg font-semibold"
+        [ngClass]="{
+          'bg-[#22223bff] text-white': selectedTab === 'register',
+          'bg-gray-200 text-black': selectedTab !== 'register'
+        }"
+        (click)="selectedTab = 'register'">
+        Register a Company
+      </button>
+    </div>
+
+    <div *ngIf="selectedTab === 'list'" class="grid gap-4 sm:grid-cols-2">
+      <div *ngFor="let company of companies" class="p-4 rounded-lg shadow bg-gray-200">
+        <h3 class="text-lg text-black font-bold">{{ company.name }}</h3>
+        <p class="text-sm text-black mb-2">{{ company.description }}</p>
+      </div>
+    </div>
+
+    <form *ngIf="selectedTab === 'register'" [formGroup]="companyForm" (ngSubmit)="onSubmit()" class="grid gap-4 w-full mt-4">
+      <div>
+        <label class="block font-semibold mb-1">Company Name</label>
+        <input formControlName="name" type="text" class="w-full p-2 rounded border" placeholder="e.g. Microsoft" />
+      </div>
+
+      <div>
+        <label class="block font-semibold mb-1">Description</label>
+        <textarea formControlName="description" rows="3" class="w-full p-2 rounded border" placeholder="Describe the company..."></textarea>
+      </div>
+
+      <button type="submit" class="bg-[#22223bff] text-white px-4 py-2 rounded w-full sm:w-auto">
+        Submit
+      </button>
+    </form>
+  </div>
+</div>

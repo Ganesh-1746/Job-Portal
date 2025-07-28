@@ -1,0 +1,67 @@
+<div class="p-4 sm:p-6 md:p-8 bg-cover bg-center min-h-screen relative" style="background-image: url('assets/images/background.jpg')">
+  
+  <div class="absolute inset-0 bg-black opacity-20 z-0"></div>
+
+  <div class="relative z-10">
+    
+    <header class="relative flex flex-col md:flex-row items-center justify-center md:justify-between mb-6 gap-4">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#22223bff] text-center md:text-left">
+        Admin Dashboard
+      </h1>
+
+      <div class="relative" (clickOutside)="showProfilePanel = false">
+        <button
+          (click)="toggleProfilePanel($event)"
+          class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#22223bff] text-[#c9ada7ff] text-base sm:text-lg font-bold flex items-center justify-center shadow hover:bg-[#c9ada7ff] hover:text-[#22223bff] transition duration-200"
+          aria-label="User Profile"
+        >
+          A
+        </button>
+
+        <div 
+          *ngIf="showProfilePanel"
+          class="absolute right-0 mt-3 w-64 sm:w-80 z-50"
+          style="animation: fadeScaleIn 0.3s ease-out;"
+        >
+          <div class="absolute -top-2 right-4 w-4 h-4 bg-[#f2e9e4ff] rotate-45 shadow-sm border border-gray-300"></div>
+
+          <div class="bg-white backdrop-blur-md rounded-xl shadow-xl border border-gray-300 overflow-hidden">
+            <div class="flex flex-col items-center p-4 border-b border-gray-300">
+              <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#c9ada7ff] text-[#22223bff] flex items-center justify-center text-lg sm:text-xl font-bold shadow">
+                A
+              </div>
+              <h2 class="mt-2 text-base sm:text-lg font-semibold text-[#22223bff]">Admin</h2>
+            </div>
+
+            <div class="p-4 sm:p-5 text-sm text-[#22223bff]">
+              <button 
+                (click)="logout()"
+                class="mt-4 bg-[#c9ada7ff] hover:bg-[#22223bff] hover:text-white text-[#22223bff] px-4 py-2 rounded-lg w-full transition duration-200 shadow-sm">
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="text-center text-[#22223bff] mt-6 md:mt-12">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold">Welcome, Admin!</h2>
+    </div>
+
+    <div class="mt-8 sm:mt-10 flex flex-wrap justify-center gap-4 sm:gap-6 text-center">
+      <div class="bg-[#22223bff] bg-opacity-90 p-4 sm:p-6 rounded-xl shadow w-40 sm:w-52">
+        <h2 class="text-xl sm:text-2xl font-bold text-[#c9ada7ff]">{{ totalUsers() }}</h2>
+        <p class="text-sm sm:text-lg mt-1 sm:mt-2 text-[#c9ada7ff]">Users Registered</p>
+      </div>
+      <div class="bg-[#22223bff] bg-opacity-90 p-4 sm:p-6 rounded-xl shadow w-40 sm:w-52">
+        <h2 class="text-xl sm:text-2xl font-bold text-[#c9ada7ff]">{{ totalCompanies() }}</h2>
+        <p class="text-sm sm:text-lg mt-1 sm:mt-2 text-[#c9ada7ff]">Companies Registered</p>
+      </div>
+      <div class="bg-[#22223bff] bg-opacity-90 p-4 sm:p-6 rounded-xl shadow w-40 sm:w-52">
+        <h2 class="text-xl sm:text-2xl font-bold text-[#c9ada7ff]">{{ totalJobs() }}</h2>
+        <p class="text-sm sm:text-lg mt-1 sm:mt-2 text-[#c9ada7ff]">Jobs Posted</p>
+      </div>
+    </div>
+  </div>
+</div>

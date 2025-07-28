@@ -1,0 +1,83 @@
+<body class="bg-[#f2e9e4ff]">
+  <div class="flex flex-col lg:flex-row min-h-screen w-full overflow-hidden">
+    
+    <div class="hidden lg:flex lg:w-1/2 relative custom-curve-left bg-cover bg-center">
+    </div>
+    
+    <div class="w-full lg:w-1/2 flex items-center justify-center py-10 px-4 bg-[#f2e9e4ff] z-20">
+      <div class="w-full max-w-md p-6 sm:p-8 bg-white shadow-xl rounded-xl">
+
+        <div class="flex gap-4 mb-6 justify-center" *ngIf="!isRegisterForm()">
+          <button 
+            class="flex-1 px-4 py-2 rounded border border-gray-300 hover:bg-[#4a4e69ff] hover:text-white"
+            [ngClass]="{ 'bg-[#22223bff] text-white': loginMode === 'user' }"
+            (click)="switchMode('user')">
+            User Login
+          </button>
+          <button 
+            class="flex-1 px-4 py-2 rounded border border-gray-300 hover:bg-[#4a4e69ff] hover:text-white"
+            [ngClass]="{ 'bg-[#22223bff] text-white': loginMode === 'admin' }"
+            (click)="switchMode('admin')">
+            Admin Login
+          </button>
+        </div>
+
+        <ng-container *ngIf="isRegisterForm()">
+          <div class="flex justify-between mb-6">
+            <h2 class="text-xl font-semibold">Register</h2>
+            <button class="text-sm text-gray-600 hover:underline" (click)="switchForm()">← Back to Login</button>
+          </div>
+
+          <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+            <input type="text" formControlName="name" placeholder="Full Name" class="mb-4 w-full p-2 border rounded" />
+            <div *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid" class="text-red-500 text-sm mb-2">Name is required.</div>
+
+            <input type="email" formControlName="email" placeholder="Email" class="mb-4 w-full p-2 border rounded" />
+            <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="text-red-500 text-sm mb-2">Valid email is required.</div>
+
+            <input type="text" formControlName="mobileNo" placeholder="Mobile Number" class="mb-4 w-full p-2 border rounded" />
+            <div *ngIf="registerForm.get('mobileNo')?.touched && registerForm.get('mobileNo')?.invalid" class="text-red-500 text-sm mb-2">Mobile number is required.</div>
+
+            <input type="text" formControlName="location" placeholder="Location" class="mb-4 w-full p-2 border rounded" />
+            <div *ngIf="registerForm.get('location')?.touched && registerForm.get('location')?.invalid" class="text-red-500 text-sm mb-2">Location is required.</div>
+
+            <input type="password" formControlName="password" placeholder="Password" class="mb-4 w-full p-2 border rounded" />
+            <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="text-red-500 text-sm mb-2">Password is required.</div>
+
+            <input type="file" (change)="onFileChange($event)" accept=".pdf,.doc,.docx" class="mb-4 w-full border p-2 rounded bg-gray-50" />
+            <div *ngIf="registerForm.get('resume')?.touched && registerForm.get('resume')?.invalid" class="text-red-500 text-sm mb-2">Resume is required.</div>
+
+            <button type="submit" class="w-full bg-[#22223bff] text-white px-6 py-2 rounded hover:opacity-80">Register</button>
+          </form>
+        </ng-container>
+
+        <ng-container *ngIf="!isRegisterForm()">
+          <form (ngSubmit)="onLogin()">
+            <div class="text-xl font-semibold mb-4 text-center">{{ loginLabel }}</div>
+
+            <div class="relative mb-4">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                <i class="fas fa-user"></i>
+              </span>
+              <input type="text" [(ngModel)]="username" name="username" [placeholder]="usernamePlaceholder" class="pl-10 py-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400" required />
+            </div>
+
+            <div class="relative mb-4">
+              <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                <i class="fas fa-lock"></i>
+              </span>
+              <input type="password" [(ngModel)]="password" name="password" [placeholder]="passwordPlaceholder" class="pl-10 py-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-gray-400" required />
+            </div>
+
+            <button type="submit" class="w-full bg-[#22223bff] text-white px-6 py-2 rounded hover:opacity-80">Login</button>
+          </form>
+        </ng-container>
+
+        <div *ngIf="!isAdminLogin && !isRegisterForm()" class="mt-4 text-[#22223bff] text-center">
+          <p>{{ RegisterMessage }} <span><a (click)="switchForm()" class="no-underline cursor-pointer">Register</a></span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>

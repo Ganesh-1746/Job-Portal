@@ -1,0 +1,86 @@
+<div class="p-4 sm:p-6 md:p-8 bg-[#f2e9e4ff] min-h-screen">
+  
+  <header class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 text-center sm:text-left">
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#22223bff]">Applied Jobs</h2>
+  </header>
+
+  
+  <div *ngIf="selectedJob(); else appliedList">
+    <div class="bg-white p-4 sm:p-6 md:p-8 rounded-xl shadow-2xl borde relative">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+        <h3 class="text-xl sm:text-2xl md:text-3xl font-semibold text-[#22223bff]">{{ selectedJob()?.jobTitle }}</h3>
+        <button (click)="goBack()" class="bg-gray-300 text-black px-4 py-1 rounded hover:bg-gray-400">
+          Back
+        </button>
+      </div>
+
+      <div class="space-y-2 text-gray-700 text-sm sm:text-base">
+        <div class="flex items-center gap-2">
+          <span class="material-icons text-blue-600">location_on</span>
+          Location: {{ selectedJob()?.location }}
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="material-icons text-green-600">work</span>
+          Job Type: {{ selectedJob()?.jobType }}
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="material-icons text-orange-500">access_time</span>
+          Required experience: {{ selectedJob()?.experience }} years
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="material-icons text-purple-600">apartment</span>
+          Department: {{ selectedJob()?.department }}
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="material-icons text-yellow-600">attach_money</span>
+          Salary: ₹{{ selectedJob()?.salary }}
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="material-icons text-pink-600">event</span>
+          Applied Date: {{ selectedJob()?.appliedDate }}
+        </div>
+        <div class="text-black text-base sm:text-lg">
+          Company: <strong>{{ selectedJob()?.companyName }}</strong>
+        </div>
+        <div class="text-gray-700">
+          Status: <span class="font-semibold text-indigo-700">{{ selectedJob()?.status }}</span>
+        </div>
+        <p class="text-gray-600">
+          <strong>Description:</strong><br>
+          {{ selectedJob()?.description || 'No detailed description provided.' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #appliedList>
+    <div class="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2">
+      <div *ngFor="let job of appliedJobs()" class="p-4 sm:p-6 bg-white rounded-xl shadow-xl hover:shadow-2xl transition-transform transform hover:-translate-y-1 duration-300">
+        <h4 class="text-xl sm:text-2xl font-semibold text-[#22223bff] mb-2">{{ job.jobTitle }}</h4>
+
+        <div class="space-y-1 text-gray-700 text-sm sm:text-base">
+          <div class="flex items-center gap-2">
+            <span class="material-icons text-blue-600">location_on</span>
+            {{ job.location }}
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-icons text-green-600">work</span>
+            {{ job.jobType }}
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="material-icons text-orange-500">access_time</span>
+            {{ job.experience }} years experience
+          </div>
+          <div>
+            Company: <span class="font-medium">{{ job.companyName }}</span>
+          </div>
+        </div>
+
+        <button (click)="viewStatus(job)"
+          class="mt-4 w-full sm:w-auto bg-[#22223bff] text-white px-5 py-2 rounded hover:bg-[#4a4e69ff] transition">
+          View Status
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

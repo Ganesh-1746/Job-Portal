@@ -1,0 +1,21 @@
+<div class="min-h-screen bg-[#f2e9e4ff] flex items-center justify-center py-10 px-4">
+  <div class="bg-white shadow-xl rounded-2xl p-6 sm:p-8 w-full max-w-4xl">
+    <h2 class="text-xl sm:text-2xl font-bold mb-6 text-center">All Registered Users</h2>
+
+    <div class="grid gap-4">
+      <div *ngFor="let user of users" class="flex flex-col sm:flex-row justify-between sm:items-center p-4 rounded-lg shadow-md bg-gray-200 gap-y-2 sm:gap-y-0">
+        <div>
+          <h3 class="text-base sm:text-lg font-bold">{{ user.name }}</h3>
+          <p class="text-sm text-black">Email: {{ user.email }}</p>
+          <p class="text-sm text-black">Mobile No: {{ user.mobileNo }}</p>
+          <p class="text-sm text-black">Location: {{ user.location }}</p>
+        </div>
+        <button 
+          (click)="deleteUser(user.id)" 
+          class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition w-full sm:w-auto">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
