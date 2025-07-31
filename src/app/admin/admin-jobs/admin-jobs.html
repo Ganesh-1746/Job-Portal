@@ -5,7 +5,8 @@
       <h2 class="text-xl sm:text-2xl font-bold">
         {{ selectedTab === 'view' ? 'All Jobs' : (selectedTab === 'add' ? 'Add New Job' : 'Edit Job') }}
       </h2>
-
+    
+      <!-- Search bar for 'view' mode -->
       <div *ngIf="selectedTab === 'view'" class="flex gap-2 mt-2 sm:mt-0">
         <input
           type="text"
@@ -18,7 +19,16 @@
           Search
         </button>
       </div>
-    </div>
+    
+      <!-- Back button for 'add' or 'edit' mode -->
+      <div *ngIf="selectedTab === 'add' || selectedTab === 'edit'" class="mt-2 sm:mt-0">
+        <button 
+          (click)="goToTab('view')" 
+          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          ← Back to All Jobs
+        </button>
+      </div>
+    </div>    
 
     <div *ngIf="selectedTab !== 'edit'" class="mb-6 flex flex-col sm:flex-row gap-3">
       <button 

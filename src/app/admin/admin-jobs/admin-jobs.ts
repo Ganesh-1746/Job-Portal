@@ -30,11 +30,15 @@ export class AdminJobs implements OnInit, AfterViewInit {
   }
 
   goToTab(tab: 'view' | 'add' | 'edit') {
-    this.selectedTab = tab;
     if (tab === 'view') {
       this.fetchJobs();
+      this.jobForm.reset();
+      this.selectedJobIndex = null;
     }
+  
+    this.selectedTab = tab;
   }
+  
 
   selectedJobIndex: number | null = null;
   jobForm: FormGroup;
