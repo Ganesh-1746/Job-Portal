@@ -4,6 +4,7 @@ import { catchError, switchMap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { LoginResponse } from '../Models/login-response.model';
 import { AuthService } from '../services/auth.service'; 
+import { environment } from '../../environments/environment';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
@@ -29,7 +30,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
 
       if (isAuthError && isNotLoginOrRefresh && refreshToken) {
         return http
-          .post<LoginResponse>('http://localhost:8080/api/refresh-token', {
+          .post<LoginResponse>(`${environment.apiUrl}/api/refresh-token`, {
             refreshToken
           })
           .pipe(

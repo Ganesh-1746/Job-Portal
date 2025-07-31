@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Application } from '../Models/job-application.model';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobApplicationService {
-  private baseUrl = 'http://localhost:8080/admin'; 
+  private baseUrl = `${environment.apiUrl}/admin`; 
 
   constructor(private http: HttpClient) {}
 

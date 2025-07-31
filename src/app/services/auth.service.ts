@@ -5,13 +5,14 @@ import jwt_decode from 'jwt-decode';
 import { UserDetails } from '../Models/user-details';
 import { JwtPayload } from '../Models/jwt-payload';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = `${environment.apiUrl}`;
   private refreshEndpoint = '/api/refresh';
 
   constructor(private http: HttpClient,private router: Router) {}
