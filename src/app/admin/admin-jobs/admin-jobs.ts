@@ -35,10 +35,8 @@ export class AdminJobs implements OnInit, AfterViewInit {
       this.jobForm.reset();
       this.selectedJobIndex = null;
     }
-  
     this.selectedTab = tab;
   }
-  
 
   selectedJobIndex: number | null = null;
   jobForm: FormGroup;

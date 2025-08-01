@@ -23,8 +23,14 @@ export class Profile {
     if (resume) {
       formData.append('resume', resume);
     }
-
-    return this.http.put(`${this.baseUrl}/update`, formData);
+  
+    const token = localStorage.getItem('token'); // Or whatever key you used
+  
+    const headers = {
+      Authorization: `Bearer ${token}`
+    };
+  
+    return this.http.put(`${this.baseUrl}/update`, formData, { headers });
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<any> {
