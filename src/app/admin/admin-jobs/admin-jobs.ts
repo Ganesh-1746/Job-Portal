@@ -14,7 +14,7 @@ import { Admin } from '../../services/admin.js';
 export class AdminJobs implements OnInit, AfterViewInit {
   filteredJobs: WritableSignal<Job[]> = signal<Job[]>([]);
   private _selectedTab: 'view' | 'add' | 'edit' = 'view';
-  searchText ='';
+  searchText = '';
 
   get selectedTab() {
     return this._selectedTab;
@@ -74,15 +74,18 @@ export class AdminJobs implements OnInit, AfterViewInit {
 
   fetchJobs() {
     this.adminService.getAllJobs().subscribe((data: any) => {
-      const enrichedJobs = data.map((job: any) => ({
-        ...job,
-        companyName: this.getCompanyNameById(job.companyId)
-      }));
+      const enrichedJobs = data.map((job: any) => {
+        const company = this.getCompanyById(job.companyId);
+        return {
+          ...job,
+          companyName: company?.name ?? 'Unknown',
+          companyId: company?.id ?? null
+        };
+      });
       this.jobs.set(enrichedJobs);
       this.filteredJobs.set(enrichedJobs);
     });
   }
-  
 
   fetchCompanies() {
     this.adminService.getAllCompanies().subscribe({
@@ -106,7 +109,11 @@ export class AdminJobs implements OnInit, AfterViewInit {
   }
 
   submitJob() {
-    if (this.jobForm.invalid) return;
+    if (this.jobForm.invalid) {
+      this.jobForm.markAllAsTouched();
+      alert('Please fill in all required fields.');
+      return;
+    }
 
     const formValue = this.jobForm.value;
     const payload = {
@@ -124,7 +131,7 @@ export class AdminJobs implements OnInit, AfterViewInit {
     if (this.selectedTab === 'edit' && this.selectedJobIndex !== null) {
       const jobId = this.jobs().at(this.selectedJobIndex)?.id;
       this.adminService.updateJob(jobId!, payload).subscribe({
-        next: (res) => {
+        next: () => {
           alert('Job updated successfully!');
           this.fetchJobs();
           this.selectedTab = 'view';
@@ -150,33 +157,12 @@ export class AdminJobs implements OnInit, AfterViewInit {
     this.selectedTab = 'edit';
     this.selectedJobIndex = index;
     const job = this.jobs().at(index);
-
     if (!job) return;
-
-    if (this.companies.length === 0) {
-      this.fetchCompanies();
-      setTimeout(() => this.patchJobForm(job), 300);
-    } else {
-      this.patchJobForm(job);
-    }
+    this.patchJobForm(job);
   }
 
   patchJobForm(job: any) {
-    let companyId: number | null = null;
-
-    if (typeof job.company === 'object' && job.company?.id) {
-      companyId = job.company.id;
-    } else if (typeof job.company === 'string') {
-      const matchedCompany = this.companies.find(
-        (c) => c.name.toLowerCase() === job.company.toLowerCase()
-      );
-      if (matchedCompany) {
-        companyId = matchedCompany.id;
-      } else {
-        console.warn("No matching company found for name:", job.company);
-      }
-    }
-
+    const companyId = job.companyId?.toString() ?? '';
     this.jobForm.patchValue({
       jobTitle: job.title,
       jobDescription: job.description,
@@ -185,7 +171,7 @@ export class AdminJobs implements OnInit, AfterViewInit {
       jobType: job.jobType,
       department: job.department,
       postedDate: job.postedDate,
-      companyId: companyId?.toString() ?? '',
+      companyId: companyId,
       expectedSalary: job.salary
     });
   }
@@ -200,7 +186,7 @@ export class AdminJobs implements OnInit, AfterViewInit {
       this.filteredJobs.set(this.jobs());
       return;
     }
-  
+
     const filtered = this.jobs().filter(job =>
       job.title.toLowerCase().includes(text) ||
       job.companyName.toLowerCase().includes(text) ||
@@ -208,15 +194,16 @@ export class AdminJobs implements OnInit, AfterViewInit {
       job.department.toLowerCase().includes(text) ||
       job.jobType.toLowerCase().includes(text)
     );
-  
+
     this.filteredJobs.set(filtered);
   }
-  
-  
 
   getCompanyNameById(id: number): string {
-    const company = this.companies.find(c => c.id === id);
-    return company ? company.name : 'Unknown';
+    return this.getCompanyById(id)?.name ?? 'Unknown';
+  }
+
+  getCompanyById(id: number) {
+    return this.companies.find(c => c.id === id);
   }
 
   deleteJob(index: number) {
